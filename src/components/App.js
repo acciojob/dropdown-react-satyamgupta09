@@ -138,15 +138,158 @@ const states = [{
 }];
 
 
-function App() 
-{
-	// Do not alter/remove main div
-	return (
-	<div id="main">
-		
-	</div>
-	);
-}
+function App() {
+  const [data] = useState(states);
+  const [sttate, setSttates] = useState(null);
+  const [cities, setCities] = useState([]);
+  const [landmarks, setLandmarks] = useState([]);
+  const [selectedValue, setSelectedValue] = useState({
+    name: "",
+    description: "",
+  });
+  const [selectedCity, setSelectedCity] = useState({
+    name: "",
+    description: "",
+  });
+  const [selectedLandmark, setSelectedLandmark] = useState({
+    name: "",
+    description: "",
+  });
 
+  const handleSelectedStateValue = (e) => {
+    let selectedStateName = e.target.value;
+    const selectedState = states.find(
+      (state) => state.name === selectedStateName
+    );
+
+    if (selectedState) {
+      setSttates(selectedState);
+      setSelectedValue({
+        name: selectedState.name,
+        description: selectedState.description,
+      });
+      setCities(selectedState.city);
+      setLandmarks([]);
+      setSelectedCity({ name: "", description: "" });
+      setSelectedLandmark({ name: "", description: "" });
+    }
+  };
+
+  const handleSelectedCity = (e) => {
+    let selectedCityName = e.target.value;
+    const selectedCity = cities.find((city) => city.name === selectedCityName);
+
+    if (selectedCity) {
+      setSelectedCity({
+        name: selectedCity.name,
+        description: selectedCity.description,
+      });
+      setLandmarks(selectedCity.landmarks);
+      setSelectedLandmark({ name: "", description: "" });
+    }
+  };
+
+  const handleSelectedLandMark = (e) => {
+    let selectedLandmarkName = e.target.value;
+    const selectedLandmark = landmarks.find(
+      (landmark) => landmark.name === selectedLandmarkName
+    );
+
+    if (selectedLandmark) {
+      setSelectedLandmark({
+        name: selectedLandmark.name,
+        description: selectedLandmark.description,
+      });
+    }
+  };
+
+  return (
+    <div id="main">
+      <h1>Dropdown React</h1>
+
+      {/* State Dropdown */}
+      <div>
+        <select
+          id="state"
+          value={selectedValue.name}
+          onChange={handleSelectedStateValue}
+        >
+          <option value="">Select a State</option>
+          {data.map((state, index) => (
+            <option key={index} value={state.name}>
+              {state.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      {selectedValue.name && (
+        <>
+          <p id="state-name">
+            <strong>State:</strong> {selectedValue.name}
+          </p>
+          <p id="state-description">
+            <strong>Description:</strong> {selectedValue.description}
+          </p>
+        </>
+      )}
+
+      {/* City Dropdown */}
+      <div>
+        {selectedValue.name && (
+          <select
+            id="city"
+            value={selectedCity.name}
+            onChange={handleSelectedCity}
+          >
+            <option value="">Select a City</option>
+            {cities.map((city, index) => (
+              <option key={index} value={city.name}>
+                {city.name}
+              </option>
+            ))}
+          </select>
+        )}
+      </div>
+      {selectedCity.name && (
+        <>
+          <p id="city-name">
+            <strong>City:</strong> {selectedCity.name}
+          </p>
+          <p id="city-description">
+            <strong>Description:</strong> {selectedCity.description}
+          </p>
+        </>
+      )}
+
+      {/* Landmark Dropdown */}
+      <div>
+        {selectedCity.name && (
+          <select
+            id="landmark"
+            value={selectedLandmark.name}
+            onChange={handleSelectedLandMark}
+          >
+            <option value="">Select a Landmark</option>
+            {landmarks.map((mark, index) => (
+              <option key={index} value={mark.name}>
+                {mark.name}
+              </option>
+            ))}
+          </select>
+        )}
+      </div>
+      {selectedLandmark.name && (
+        <>
+          <p id="landmark-name">
+            <strong>Landmark:</strong> {selectedLandmark.name}
+          </p>
+          <p id="landmark-description">
+            <strong>Description:</strong> {selectedLandmark.description}
+          </p>
+        </>
+      )}
+    </div>
+  );
+}
 
 export default App;
