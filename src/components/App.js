@@ -1,6 +1,6 @@
 import React, { useState, useReducer } from "react";
 import "./../styles/App.css";
-import 'bootstrap/dist/css/bootstrap.css';
+// import 'bootstrap/dist/css/bootstrap.css';
 
 
 
